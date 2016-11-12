@@ -6,9 +6,16 @@ function login() {
     $.ajax({
         type: "POST",
         url: base_url + "/user/login",
-        data: {"username":username, "password":password},
+        data: {"username": username, "password": password},
         success: function (data) {
-            console.log(data);
+            if (data['status']) {
+                data = data['data'];
+                $.cookie("token", data['token']);
+                $.cookie("userId", data['userId']);
+                window.location = 'index.html'
+            } else {
+                alert(data['message']);
+            }
         },
         dataType: "json"
     });
